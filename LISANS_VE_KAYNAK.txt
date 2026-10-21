@@ -1,0 +1,30 @@
+TURBO PİST — 3D ARAÇ MODELLERİ: LİSANS VE KAYNAK
+=================================================
+
+Kullanılan dosyalar: araba-yellow.glb, araba-red.glb, araba-green.glb, araba-purple.glb
+
+Kaynak
+- Kenney — "Starter Kit Racing" deposu
+  https://github.com/KenneyNL/Starter-Kit-Racing  (models/vehicle-truck-yellow|red|green|purple.glb)
+- İndirme tarihi: 21 Ekim 2026 (codeload.github.com üzerinden, ana dal)
+
+Lisans (depodaki README'den doğrulandı)
+- 3D modeller, sesler ve sprite'lar: CC0 1.0 Evrensel (kamu malı) —
+  https://creativecommons.org/publicdomain/zero/1.0/
+  Ticari kullanım dahil serbesttir; izin ve atıf gerekmez.
+- Depodaki kod/şablon: MIT Lisansı (Copyright (c) Kenney). Bu projede yalnızca modeller kullanıldı.
+- Atıf zorunlu değildir; nazik bir teşekkür olarak "Kenney.nl" yazılabilir.
+
+Yapılan değişiklik
+- Orijinal GLB'ler harici "Textures/colormap.png" dosyasına bağlıydı; dosyaların tek başına açılması için
+  doku GLB içine gömüldü (@gltf-transform/cli ile "copy"). Geometri değiştirilmedi.
+- js/models-embedded.js, aynı dört GLB'nin base64 kopyasıdır (yalnızca dosyayı çift tıklayıp açma / file://
+  durumunda kullanılır).
+
+Değerlendirilip kullanılmayan adaylar
+- Khronos glTF-Sample-Assets "ToyCar" (CC0, ancak ~5,4 MB — iPhone için ağır)
+- Khronos glTF-Sample-Assets "CarConcept" (CC BY 4.0, ~11,8 MB — hem ağır hem atıf gerektirir)
+- three.js örneklerindeki "ferrari.glb" (Ferrari 458 Italia, vicent091036; lisansı depoda net belirtilmediği için kullanılmadı)
+
+Üçüncü taraf yazılım
+- three.js (MIT) — js/turbo3d.js içinde paketlenmiştir.
