@@ -259,13 +259,24 @@ function create(canvas) {
   });
 
   let modelsLoaded = 0, modelsFailed = 0, statusCb = null;
+  const templates = [];
+  slots.forEach((sl, i) => { sl.carIdx = i; });
+  function applyCar(slot, idx) {
+    slot.pivot.clear();
+    const t = templates[idx];
+    const obj = t ? t.clone(true) : buildFallbackCar(FALLBACK_COLORS[idx]);
+    slot.usingModel = !!t; slot.carIdx = idx; slot.pivot.add(obj); slot.wheels = findWheels(obj);
+  }
+  let wanted = slots.map((_, i) => i);
+  function setCars(arr) {
+    wanted = arr.slice(0, slots.length);
+    wanted.forEach((idx, i) => { if (slots[i].carIdx !== idx || (!slots[i].usingModel && templates[idx])) applyCar(slots[i], idx); });
+  }
   const ready = Promise.all(MODEL_COLORS.map(async (name, i) => {
     const m = await loadModel(name);
-    if (m) {
-      lambertize(m);
-      const s = slots[i]; s.pivot.clear(); s.pivot.add(m); s.wheels = findWheels(m); s.usingModel = true; modelsLoaded++;
-    } else modelsFailed++;
+    if (m) { lambertize(m); templates[i] = m; modelsLoaded++; } else modelsFailed++;
   })).then(() => {
+    slots.forEach((sl, i) => applyCar(sl, wanted[i]));
     const info = { loaded: modelsLoaded, failed: modelsFailed };
     if (statusCb) statusCb(info);
     return info;
@@ -288,6 +299,18 @@ function create(canvas) {
 
   function render(s) {
     if (ctxLost) return;
+    if (s.garage) {
+      D = 0;
+      const gp = slots[0], portrait0 = camera.aspect < 1;
+      gp.group.visible = true; gp.group.position.set(0, 0, 0); gp.group.rotation.set(0, s.garage.angle, 0);
+      for (let i = 1; i < slots.length; i++) slots[i].group.visible = false;
+      updateRoad(); updateTrees();
+      camera.fov = portrait0 ? 54 : 42; camera.updateProjectionMatrix();
+      camera.position.set(0, 2.3, portrait0 ? 10.5 : 9); camera.lookAt(0, portrait0 ? -0.9 : 0.6, 0);
+      sky.position.copy(camera.position);
+      renderer.render(scene, camera);
+      return;
+    }
     D = s.dist;
     const dt = Math.min(s.dt || 0.016, 0.05);
     const sp = s.speed / 230;
@@ -338,7 +361,7 @@ function create(canvas) {
     camera.aspect = w / h; camera.updateProjectionMatrix();
   }
 
-  return { render, resize, ready, onStatus(cb) { statusCb = cb; if (modelsLoaded + modelsFailed >= MODEL_COLORS.length) cb({ loaded: modelsLoaded, failed: modelsFailed }); } };
+  return { render, resize, ready, setCars, onStatus(cb) { statusCb = cb; if (modelsLoaded + modelsFailed >= MODEL_COLORS.length) cb({ loaded: modelsLoaded, failed: modelsFailed }); } };
 }
 
 window.Turbo3D = { create };
