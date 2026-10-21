@@ -1,0 +1,8 @@
+{
+  "name": "turbo-pist",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/turbo3d.js --bundle --minify --format=iife --target=safari15 --outfile=js/turbo3d.js"
+  },
+  "devDependencies": { "esbuild": "^0.28.2", "three": "^0.186.1" }
+}
