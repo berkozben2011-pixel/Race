@@ -29,7 +29,7 @@ function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight
  if(r3d){r3d.resize(W,H,dpr)}else{canvas.width=Math.floor(W*dpr);canvas.height=Math.floor(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
  if(!running)renderIdle()}
 addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,150));
-const CARS=[{n:'SARI',t:'ŞİMŞEK',hex:'#f2c230'},{n:'KIRMIZI',t:'ALEV',hex:'#e0553f'},{n:'YEŞİL',t:'YAPRAK',hex:'#3fa85a'},{n:'MOR',t:'GECE',hex:'#8b57c9'}];
+const CARS=[{n:'SARI',t:'DOBLO',hex:'#f2c230'},{n:'KIRMIZI',t:'ALEV',hex:'#e0553f'},{n:'MAVİ',t:'TOFAŞ',hex:'#2f6fd0'},{n:'MOR',t:'GECE',hex:'#8b57c9'}];
 const DRIVERS=[{n:'Berk',s:'berk'},{n:'Yankı',s:'yanki'},{n:'Rüzgar',s:'ruzgar'},{n:'Ahmet',s:'ahmet'},{n:'Sinan',s:'sinan'},{n:'Koray',s:'koray'},{n:'Kaan',s:'kaan'},{n:'Çiğdem',s:'cigdem'}];
 let sel={car:0,driver:0};try{const j=JSON.parse(localStorage.getItem('turbopist_sel')||'null');if(j&&j.car>=0&&j.car<CARS.length&&j.driver>=0&&j.driver<DRIVERS.length)sel=j}catch(e){}
 const saveSel=()=>{try{localStorage.setItem('turbopist_sel',JSON.stringify(sel))}catch(e){}};
